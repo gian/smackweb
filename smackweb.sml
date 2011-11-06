@@ -1,8 +1,8 @@
 structure SmackWeb =
 struct
     (** CONFIGURATION **)
-    val dataRoot = "/Library/WebServer/CGI-Executables/data/"
-    val smackageHome = "/Users/gdpe/.smackage"
+    val dataRoot = "/home/gdpe/public_html/smackage/data/"
+    val smackageHome = "/home/gdpe/.smackage"
 
     fun esc #"<" = "&lt;"
       | esc #">" = "&gt;"
@@ -156,7 +156,9 @@ struct
             "</ul>\n" ^
             "<h2>Obtaining this package</h2>" ^
             "<p>You can use the following command:</p>\n" ^
-            "<blockquote>smackage get " ^ pkg ^ " " ^ ver ^ "</blockquote>\n" 
+            "<blockquote>smackage get " ^ pkg ^ " " ^ ver ^ "</blockquote>\n" ^
+            "<h2>Documentation</h2>" ^
+            "<a href=\"/smackage/doc/" ^ pkg ^ "-v" ^ ver ^ "\">SMLDoc-generated Documentation</a>"
     in
         ( CGI.startResponse "text/html"
         ; Template.render (pkg, out)

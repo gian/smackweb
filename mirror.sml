@@ -1,14 +1,28 @@
 structure Mirror =
 struct
-    val smackage = "/Users/gdpe/Documents/code/smackage/bin/smackage"
-    val smackageHome = "/Users/gdpe/.smackage"
-    val dataRoot = "/Library/WebServer/CGI-Executables/data"
+    val smackage = "/home/gdpe/smackage/bin/smackage"
+    val smackageHome = "/home/gdpe/.smackage"
+    val dataRoot = "/home/gdpe/public_html/smackage/data"
+    val docRoot = "/home/gdpe/public_html/smackage/doc"
 
     fun versionMap f res =
         (List.map 
             (fn (n,dict) => 
                 (List.map (fn (k,_) => f (n,k) 
             ) (List.rev (SemVerDict.toList dict)))) res) 
+
+    fun makeDocs (pkg,ver) =
+    let
+        val srcDir = smackageHome ^ "/lib/" ^ pkg ^ "/v" ^ SemVer.toString ver
+        val dir = docRoot ^ "/" ^ pkg ^ "-v" ^ SemVer.toString ver
+        val _ = OS.FileSys.isDir dir handle _ => (OS.FileSys.mkDir dir; false)
+        val _ = OS.FileSys.chDir dir
+      
+        val _ = OS.Process.system
+            ("smldoc `find " ^ srcDir ^ " \\( ! -regex '.*/.cm/.*' \\) -type f -name \"*.sml\" | xargs`")
+    in
+        ()
+    end
 
     fun retrSpec (pkg,ver) =
     let
@@ -35,6 +49,10 @@ struct
 
         val _ = print ("Wrote: " ^ dataRoot ^ "/" ^ pkg ^ ".smackspec-v" ^
                     SemVer.toString ver ^ "\n")
+
+        val _ = print ("Generating docs:\n")
+
+        val _ = makeDocs (pkg,ver)
     in
         s'
     end
@@ -43,7 +61,7 @@ struct
     let
         val _ = OS.Process.system (smackage ^ " refresh")
 
-        val _ = VersionIndex.init "/Users/gdpe/.smackage"
+        val _ = VersionIndex.init smackageHome 
 
         val res = VersionIndex.search ""
 
