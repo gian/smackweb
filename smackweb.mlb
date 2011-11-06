@@ -1,0 +1,5 @@
+$(SML_LIB)/basis/basis.mlb
+$(SMACKAGE)/smlcgi/v0/cgi.mlb
+$(SMACKAGE)/smackage/v1/sources.mlb
+content.cgi.sml
+smackweb.sml

@@ -1,0 +1,8 @@
+$(SML_LIB)/basis/basis.mlb
+$(SML_LIB)/smlnj-lib/Util/smlnj-lib.mlb
+$(SMACKAGE)/smlcgi/v0/cgi.mlb
+$(SMACKAGE)/smackage/v1/sources.mlb
+$(SMACKAGE)/smackage/v1/src/posix-symlink.sml
+$(SMACKAGE)/smackage/v1/src/smackage-path.sml
+$(SMACKAGE)/smackage/v1/src/smacklib.sml
+mirror.sml
